@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <body>
+
+    <p id="food"></p>
+
+    <script type="text/javascript" src="js/tabletop.js"></script>
+    <script type="text/javascript">
+      window.onload = function() { init() };
+      students = {}
+      var dashSpreadSheet = 'https://docs.google.com/spreadsheets/d/12rVs-5IbZExlGhh1FyIwY83eTzKYGjHsL-xN50W61no/pubhtml?gid=159956742&single=true';
+      var quizSpreadSheet = 'https://docs.google.com/spreadsheets/d/1cFMFTdFOddAsD4IxASZ3L7Zdnw60pyt14tPvRjG94g4/pubhtml?gid=161196207&single=true'
+
+      function init() {
+        Tabletop.init({
+          key: dashSpreadSheet,
+          callback: parseDashSheet,
+          simpleSheet: true
+        });
+
+        Tabletop.init({
+          key: quizSpreadSheet,
+          callback: parseQuizSheet,
+          simpleSheet: true
+        })
+      }
+
+      function parseDashSheet(data) {
+        // data comes through as a simple array since simpleSheet is turned on
+        data.forEach(function(student){
+          var email = student["What is your email address?"]
+          students[email] = students[email] || {}
+          students[email].dash = {}
+          students[email].dash.dashUrl = student["What is the url of your screenshot?"]
+          students[email].dash.dashTimeStamp = student["Timestamp"]
+        })
+      }
+
+      function parseQuizSheet(data){
+        console.log(data)
+        data.forEach(function(student){
+          var email = student["What is your email address?"]
+          students[email] = students[email] || {}
+          students[email].test = {}
+          // 3 sample questions
+          var test = students[email].test
+          var i = 0;
+          for(var question in student){
+            if(question != "Timestamp" && question != "What is your email address?"){
+              test[question] = student[question]
+            }
+          }
+
+
+
+
+        })
+      }
+
+      document.write("The published spreadsheet is located at <a target='_new' href='" + dashSpreadSheet + "'>" + dashSpreadSheet + "</a>");
+    </script>
+  </body>
+</html>
