@@ -10,7 +10,8 @@
       students = {}
       var dashSpreadSheet = 'https://docs.google.com/spreadsheets/d/12rVs-5IbZExlGhh1FyIwY83eTzKYGjHsL-xN50W61no/pubhtml?gid=159956742&single=true';
       var quizSpreadSheet = 'https://docs.google.com/spreadsheets/d/1cFMFTdFOddAsD4IxASZ3L7Zdnw60pyt14tPvRjG94g4/pubhtml?gid=161196207&single=true'
-
+      dashParsed = false
+      testParsed = false
       function init() {
         Tabletop.init({
           key: dashSpreadSheet,
@@ -34,6 +35,8 @@
           students[email].dash.dashUrl = student["What is the url of your screenshot?"]
           students[email].dash.dashTimeStamp = student["Timestamp"]
         })
+        dashParsed = true
+        render()
       }
 
       function parseQuizSheet(data){
@@ -50,11 +53,18 @@
               test[question] = student[question]
             }
           }
-
-
-
-
         })
+        testParsed = true
+        render()
+      }
+
+      function render(){
+        if(!(dashParsed && testParsed){
+          return
+        }
+        for(var student in students){
+          
+        }
       }
 
       document.write("The published spreadsheet is located at <a target='_new' href='" + dashSpreadSheet + "'>" + dashSpreadSheet + "</a>");
